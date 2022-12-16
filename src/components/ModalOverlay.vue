@@ -1,18 +1,20 @@
 <template>
-  <div class="modal-mask" @click="cancelModal">
-    <BaseBox class="modal">
-      <h1 class="title">{{ title }}</h1>
-      <span>{{ errMsg }}</span>
-      <div>
-        <BaseButton
-          @click="closeModal"
-          :BtnText="btnName"
-          isSelected="true"
-          class="btn"
-        />
-      </div>
-    </BaseBox>
-  </div>
+  <teleport to="body">
+    <div class="modal-mask" @click="cancelModal">
+      <BaseBox class="modal">
+        <h1 class="title">{{ title }}</h1>
+        <span>{{ errMsg }}</span>
+        <div>
+          <BaseButton
+            @click="closeModal"
+            :BtnText="btnName"
+            isSelected="true"
+            class="btn"
+          />
+        </div>
+      </BaseBox>
+    </div>
+  </teleport>
 </template>
 
 <script>
@@ -20,6 +22,7 @@ import BaseBox from "./base/BaseBox.vue";
 import BaseButton from "./base/BaseButton.vue";
 
 export default {
+  emits: ["close-modal", "cancel-modal"],
   props: ["errMsg", "title", "btnName"],
   components: { BaseBox, BaseButton },
   methods: {
