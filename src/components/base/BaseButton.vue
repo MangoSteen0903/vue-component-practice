@@ -29,4 +29,7 @@ div {
   margin-right: 30px;
   font-size: 14px;
 }
+div:hover {
+  background-color: rgba(255, 165, 0, 0.4);
+}
 </style>

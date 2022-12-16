@@ -1,6 +1,7 @@
 <template>
   <ModalOverlay
     @close-modal="closeModal(this.targetContent)"
+    @cancel-modal="closeModal"
     v-if="isModalVisible"
     :title="modalTitle"
     :btnName="modalBtnName"
@@ -18,12 +19,14 @@
         @delete-item="confirmModal"
         v-if="currentTab === 'MainContent'"
       />
-      <component
-        :is="currentTab"
-        @enter-value="submitValue"
-        @input-error="appearFormErrorModal"
-        v-if="currentTab === 'MainForm'"
-      />
+      <KeepAlive>
+        <component
+          :is="currentTab"
+          @enter-value="submitValue"
+          @input-error="appearFormErrorModal"
+          v-if="currentTab === 'MainForm'"
+        />
+      </KeepAlive>
     </template>
   </MainBody>
 </template>

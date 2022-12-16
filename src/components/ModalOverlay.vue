@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-mask">
+  <div class="modal-mask" @click="cancelModal">
     <BaseBox class="modal">
       <h1 class="title">{{ title }}</h1>
       <span>{{ errMsg }}</span>
@@ -26,6 +26,9 @@ export default {
     closeModal() {
       this.$emit("close-modal");
     },
+    cancelModal() {
+      this.$emit("cancel-modal");
+    },
   },
 };
 </script>
@@ -45,7 +48,7 @@ export default {
 }
 .modal {
   width: 60%;
-  height: 30%;
+  height: 25%;
   display: flex;
   flex-direction: column;
   gap: 20px;

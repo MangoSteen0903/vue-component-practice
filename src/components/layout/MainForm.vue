@@ -44,15 +44,15 @@ export default {
     onClick() {
       let msg = "";
       switch (true) {
-        case this.inputTitle === "":
+        case this.inputTitle.trim() === "":
           msg = "You should write title to submit this form.";
           this.$emit("input-error", msg);
           break;
-        case this.inputDescription === "":
+        case this.inputDescription.trim() === "":
           msg = "You should write description to submit this form.";
           this.$emit("input-error", msg);
           break;
-        case this.inputLink === "":
+        case this.inputLink.trim() === "":
           msg = "You should write link to submit this form.";
           this.$emit("input-error", msg);
           break;

@@ -3,7 +3,7 @@
     <template #default>
       <section id="header">
         <h1>{{ title }}</h1>
-        <span @click="deleteContent">Delete</span>
+        <BaseButton class="btn" BtnText="Delete" @click="deleteContent" />
       </section>
       <section id="contents">
         <span>{{ description }}</span>
@@ -17,10 +17,11 @@
 
 <script>
 import BaseBox from "./BaseBox.vue";
+import BaseButton from "./BaseButton.vue";
 
 export default {
   props: ["title", "description", "link"],
-  components: { BaseBox },
+  components: { BaseBox, BaseButton },
   methods: {
     deleteContent() {
       this.$emit("delete-content");
@@ -54,5 +55,8 @@ export default {
 #contents #btn {
   color: orange;
   font-weight: 600;
+}
+.btn {
+  margin: 0;
 }
 </style>
