@@ -1,24 +1,108 @@
 <template>
+  <ModalOverlay
+    @close-modal="closeModal(this.targetContent)"
+    v-if="isModalVisible"
+    :title="modalTitle"
+    :btnName="modalBtnName"
+    :errMsg="errMsg"
+  />
   <TopHeader headerText="Learning Resources App" headerColor="tomato" />
   <MainBody>
     <template #TabMenu>
-      <TabMenu />
+      <TabMenu @selectTab="changeTab" :currentlySelected="currentId" />
     </template>
     <template #Contents>
-      <MainContent />
+      <component
+        :is="currentTab"
+        v-bind="{ items }"
+        @delete-item="confirmModal"
+        v-if="currentTab === 'MainContent'"
+      />
+      <component
+        :is="currentTab"
+        @enter-value="submitValue"
+        @input-error="appearFormErrorModal"
+        v-if="currentTab === 'MainForm'"
+      />
     </template>
   </MainBody>
 </template>
 
 <script>
 import MainBody from "./components/layout/MainBody.vue";
-import MainContent from "./components/MainContent.vue";
+import MainContent from "./components/layout/MainContent.vue";
 import TabMenu from "./components/TabMenu.vue";
 import TopHeader from "./components/TopHeader.vue";
-
+import MainForm from "./components/layout/MainForm.vue";
+import BaseContent from "./components/base/BaseContent.vue";
+import ModalOverlay from "./components/ModalOverlay.vue";
 export default {
   name: "App",
-  components: { TopHeader, TabMenu, MainBody, MainContent },
+  components: {
+    TopHeader,
+    TabMenu,
+    MainBody,
+    MainContent,
+    MainForm,
+    BaseContent,
+    ModalOverlay,
+  },
+  computed: {
+    currentTab() {
+      return this.tabList[this.currentId];
+    },
+  },
+  data() {
+    return {
+      tabList: ["MainContent", "MainForm"],
+      currentId: 0,
+      items: [],
+      isModalVisible: false,
+      errMsg: "",
+      modalTitle: "",
+      modalBtnName: "",
+      isTabInverted: false,
+      targetContent: undefined,
+    };
+  },
+  methods: {
+    changeTab(id) {
+      this.currentId = id;
+    },
+    submitValue(title, description, link) {
+      const newItem = {
+        title,
+        description,
+        link,
+      };
+      this.items.push(newItem);
+      this.currentId = 0;
+      this.isTabInverted = true;
+    },
+    appearFormErrorModal(msg) {
+      this.errMsg = msg;
+      this.modalTitle = "Invalid Input";
+      this.modalBtnName = "Dismiss";
+      this.isModalVisible = !this.isModalVisible;
+    },
+    appearDeleteModal() {
+      this.errMsg = "This will cause a data loss. Are you sure?";
+      this.modalTitle = "Delete Content";
+      this.modalBtnName = "Yes.";
+      this.isModalVisible = !this.isModalVisible;
+    },
+    closeModal(id) {
+      this.isModalVisible = !this.isModalVisible;
+      if (typeof this.targetContent !== "undefined") {
+        this.items = this.items.filter((element, index) => id !== index);
+      }
+      this.targetContent = undefined;
+    },
+    confirmModal(id) {
+      this.appearDeleteModal();
+      this.targetContent = id;
+    },
+  },
 };
 </script>
 
@@ -84,5 +168,17 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: #fff;
 }
 </style>

@@ -17,9 +17,9 @@ export default {
 div {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   width: 90%;
-  padding: 20px;
+  padding: 30px;
   border-radius: 15px;
-  display: flex;
+  background-color: white;
 }
 section {
   display: flex;

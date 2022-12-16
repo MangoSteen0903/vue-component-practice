@@ -17,11 +17,23 @@ import BaseBox from "./base/BaseBox.vue";
 import BaseButton from "./base/BaseButton.vue";
 export default {
   components: { BaseBox, BaseButton },
+  props: ["currentlySelected"],
   data() {
     return {
       buttons: ["Stored Resources", "Add Resource"],
       buttonStatus: [],
     };
+  },
+  watch: {
+    currentlySelected() {
+      this.buttonStatus.map((element, index) => {
+        if (index === this.currentlySelected) {
+          element.isSelect = true;
+        } else {
+          element.isSelect = false;
+        }
+      });
+    },
   },
   methods: {
     selectBtn(id) {

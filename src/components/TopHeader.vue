@@ -20,5 +20,6 @@ div {
   position: fixed;
   top: 0;
   color: white;
+  z-index: 1;
 }
 </style>
